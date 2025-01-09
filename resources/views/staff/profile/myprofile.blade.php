@@ -51,6 +51,11 @@
                                  border-gray-500 bg-gray-100 hover:shadow-md text-xs md:text-sm hover:font-semibold">
                                 Change Password
                             </a>
+
+                            <a href="{{ route('staff.profile.my_signature') }}" class="border px-4 py-1 rounded-md ring-0 
+                                 border-gray-500 bg-gray-100 hover:shadow-md text-xs md:text-sm hover:font-semibold">
+                                My Signature
+                            </a>
                     </div>
                     <div class="mb-4  mx-[10%] md:mx-0 ">
                             <div class="text-xl font-semibold">

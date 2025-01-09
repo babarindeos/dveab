@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="container">
+    <div class="container mx-auto">
         <!-- page header //-->
         <section class="flex flex-col w-[95%] md:w-[95%] py-1 mt-6 px-4 border-red-900 mx-auto">
         

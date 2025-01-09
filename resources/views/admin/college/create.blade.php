@@ -17,7 +17,7 @@
         <!-- new college form //-->
         <section>
                 <div>
-                    <form  action="{{ route('admin.colleges.store')}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
+                    <form  action="{{ route('admin.admin_category.store') }} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
 
                         

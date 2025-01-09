@@ -10,6 +10,7 @@ use App\Models\Staff;
 use App\Http\Classes\OrganClass;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Signature;
 
 
 class Staff_ProfileController extends Controller
@@ -267,4 +268,132 @@ class Staff_ProfileController extends Controller
 
 
     }
+
+
+    public function my_signature()
+    {
+        $signature = Signature::where('user_id', Auth::id())->first();
+        
+        return view('staff.profile.my_signature', compact('signature'));
+    }
+
+    public function upload_signature(Request $request)
+    {
+        $formFields = $request->validate([
+            'signature' => 'required|file|mimes:png'
+        ]);
+
+
+
+        $formFields['user_id'] = Auth::user()->id;
+        
+        $filename = "";
+        $new_filename = "";
+
+        try
+        {   
+
+            if ($request->hasFile('signature'))
+            {
+                $filename = Auth::id().".";
+
+                $signature = $request->file('signature');
+                $new_filename = $filename.$signature->getClientOriginalExtension();
+
+                $signature->storeAs('signatures', $new_filename);
+
+            }
+
+            $formFields['signature'] = 'signatures/'.$new_filename;
+
+            $create = Signature::create($formFields);
+
+            if ($create)
+            {
+                $data = [
+                    'error' => true,
+                    'status' => 'success',
+                    'message' => 'Your signature has been uploaded'
+                ];
+            }
+            else
+            {
+                throw new \Exception("Upload error");
+            }
+
+            
+        }
+        catch(\Exception $e)
+        {
+            $data = [
+                'error' => true,
+                'status' => 'fail',
+                'message' => $e->getMessage()
+            ];            
+        }
+
+        return redirect()->back()->with($data);
+    }
+
+
+    public function update_signature(Request $request)
+    {
+        $formFields = $request->validate([
+            'signature' => 'required|file|mimes:png'
+        ]);
+
+        $formFields['user_id'] = Auth::user()->id;
+        
+        $filename = "";
+        $new_filename = "";
+
+        try
+        {   
+
+            if ($request->hasFile('signature'))
+            {
+                $filename = Auth::id().".";
+
+                $signature = $request->file('signature');
+                $new_filename = $filename.$signature->getClientOriginalExtension();
+
+                $signature->storeAs('signatures', $new_filename);
+
+            }
+
+            $formFields['signature'] = 'signatures/'.$new_filename;
+
+            $my_signature = Signature::where('user_id', Auth::id())->first();
+
+
+            $update = $my_signature->update($formFields);
+
+            if ($update)
+            {
+                $data = [
+                    'error' => true,
+                    'status' => 'success',
+                    'message' => 'Your signature has been successfully updated'
+                ];
+            }
+            else
+            {
+                throw new \Exception("Update error");
+            }
+
+            
+        }
+        catch(\Exception $e)
+        {
+            $data = [
+                'error' => true,
+                'status' => 'fail',
+                'message' => $e->getMessage()
+            ];            
+        }
+
+        return redirect()->back()->with($data);
+    }
+
+
 }

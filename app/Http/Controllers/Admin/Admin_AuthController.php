@@ -14,7 +14,7 @@ class Admin_AuthController extends Controller
 
     public function index(){
 
-       /* 
+        /*
          User::create([
             'fileno' => 'sp1706',
             'firstname' => 'Oluwaseyi',
@@ -24,7 +24,7 @@ class Admin_AuthController extends Controller
             'password' => bcrypt('123456'),
             'role' => 'admin'
 
-        ]);   */ 
+        ]);   */
         
 
         return view('admin.auth.login');

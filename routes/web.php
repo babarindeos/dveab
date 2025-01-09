@@ -11,7 +11,11 @@ use App\Http\Controllers\Admin\Admin_DepartmentController;
 use App\Http\Controllers\Admin\Admin_StaffController;
 use App\Http\Controllers\Admin\Admin_DeanController;
 use App\Http\Controllers\Admin\Admin_DirectorateController;
+use App\Http\Controllers\Admin\Admin_AdminDocumentController;
 use App\Http\Controllers\Admin\Admin_DocumentController;
+use App\Http\Controllers\Admin\Admin_AdminCategoryTypeController;
+use App\Http\Controllers\Admin\Admin_AdminCategoryController;
+
 use App\Http\Controllers\Admin\Admin_ProfileController;
 
 use App\Http\Controllers\Admin\Admin_TrackerController;
@@ -22,6 +26,8 @@ use App\Http\Controllers\Admin\Admin_DivisionController;
 use App\Http\Controllers\Admin\Admin_BranchController;
 use App\Http\Controllers\Admin\Admin_SectionController;
 use App\Http\Controllers\Admin\Admin_UnitController;
+
+use App\Http\Controllers\Admin\Admin_FinancialYearController;
 
 use App\Http\Controllers\Staff\Staff_AuthController;
 use App\Http\Controllers\Staff\Staff_DashboardController;
@@ -35,6 +41,7 @@ use App\Http\Controllers\Staff\Staff_ProfileController;
 
 
 use App\Http\Controllers\Staff\Staff_CategoryController;
+use App\Http\Controllers\Staff\Staff_AdminDocumentController;
 
 use App\Http\Controllers\PDFController;
 
@@ -76,6 +83,11 @@ Route::prefix('staff')->middleware(['auth', 'staff'])->group(function(){
     
     Route::get('/documents/{document}/show', [Staff_DocumentController::class, 'show'])->name('staff.documents.show');
     Route::get('/documents/mydocuments', [Staff_DocumentController::class, 'mydocuments'])->name('staff.documents.mydocuments');
+
+    // Admin Document
+    Route::get('/admin_documents', [Staff_AdminDocumentController::class, 'index'])->name('staff.admin_documents.index');
+    
+
     
     
     Route::get('/workflows/{document}/flow', [Staff_WorkflowController::class, 'flow'])->name('staff.workflows.flow');
@@ -109,12 +121,21 @@ Route::prefix('staff')->middleware(['auth', 'staff'])->group(function(){
     Route::post('/profile/myprofile/update_avatar', [Staff_ProfileController::class, 'update_avatar'])->name('staff.profile.myprofile.update_avatar');
     
     Route::get('/profile/user/{fileno}', [Staff_ProfileController::class, 'user_profile'])->name('staff.profile.user_profile');
+    Route::get('/profile/user/{email}/user_profile', [Staff_ProfileController::class, 'email_user_profile'])->name('staff.profile.email_user_profile');
+    
     Route::get('/profile/change_password', [Staff_ProfileController::class, 'change_password'])->name('staff.profile.change_password');
     Route::post('/profile/update_password', [Staff_ProfileController::class, 'update_password'])->name('staff.profile.update_password');
+
+    Route::get('/profile/my_signature', [Staff_ProfileController::class, 'my_signature'])->name('staff.profile.my_signature');
+    Route::post('/profile/my_signature', [Staff_ProfileController::class, 'upload_signature'])->name('staff.profile.upload_signature');
+    Route::post('/profile/update_signature', [Staff_ProfileController::class, 'update_signature'])->name('staff.profile.update_signature');
 
     // Categories
     Route::get('/categories/create', [Staff_CategoryController::class, 'create'])->name('staff.categories.create');
     Route::post('/categories/store', [Staff_CategoryController::class, 'store'])->name('staff.categories.store');
+
+
+  
 });
 
 
@@ -238,6 +259,28 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('staff/{staff}/edit', [Admin_StaffController::class, 'edit'])->name('admin.staff.edit');
     Route::post('staff/{staff}/update', [Admin_StaffController::class, 'update'])->name('admin.staff.update');
 
+
+    // Admin Document Category Type
+    Route::get('admin_category_types', [Admin_AdminCategoryTypeController::class, 'index'])->name('admin.admin_category_types.index');
+    Route::get('admin_category_types/create', [Admin_AdminCategoryTypeController::class, 'create'])->name('admin.admin_category_types.create');
+    Route::post('admin_category_types/store', [Admin_AdminCategoryTypeController::class, 'store'])->name('admin.admin_category_types.store');
+    Route::get('admin_category_types/{admin_category_type}/edit', [Admin_AdminCategoryTypeController::class, 'edit'])->name('admin.admin_category_types.edit');
+    Route::post('admin_category_types/{admin_category_type}/update', [Admin_AdminCategoryTypeController::class, 'update'])->name('admin.admin_category_types.update');
+    Route::get('admin_category_types/{admin_category_type}/show', [Admin_AdminCategoryTypeController::class, 'show'])->name('admin.admin_category_types.show');
+    
+
+
+    // Admin Categories
+    Route::get('admin_categories', [Admin_AdminCategoryController::class, 'index'])->name('admin.admin_categories.index');
+    Route::get('admin_categories/create', [Admin_AdminCategoryController::class, 'create'])->name('admin.admin_categories.create');
+    Route::post('admin_categories/store', [Admin_AdminCategoryController::class, 'store'])->name('admin.admin_categories.store');
+    Route::get('admin_categories/{admin_category}/edit', [Admin_AdminCategoryController::class, 'edit'])->name('admin.admin_categories.edit');
+    Route::post('admin_categories/{admin_category}/update', [Admin_AdminCategoryController::class, 'update'])->name('admin.admin_categories.update');
+
+    //  Admin Documents
+    Route::get('admin_documents', [Admin_AdminDocumentController::class, 'index'])->name('admin.admin_documents.index');
+ 
+
     // Document
     Route::get('documents', [Admin_DocumentController::class, 'index'])->name('admin.documents.index');
     Route::get('document_details/{document}', [Admin_DocumentController::class, 'show'])->name('admin.documents.show');
@@ -259,6 +302,11 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('dean/assign_dean', [Admin_DeanController::class, 'assign_dean'])->name('admin.deans.assign_dean');
     Route::post('dean/assign_dean', [Admin_DeanController::class, 'store_assign_dean'])->name('admin.deans.store_assign_dean');
 
+
+    // Financial Year
+    Route::get('financial_years', [Admin_FinancialYearController::class, 'index'])->name('admin.financial_years.index');
+    Route::get('financial_years/create', [Admin_FinancialYearController::class, 'create'])->name('admin.financial_years.create');
+    Route::post('financial_years/store', [Admin_FinancialYearController::class, 'store'])->name('admin.financial_years.store');
     
 });
 

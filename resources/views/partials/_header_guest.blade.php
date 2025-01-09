@@ -11,8 +11,8 @@
             <!-- end of logo //-->
             <!-- Name //-->
             <div class="flex flex-col item-center justify-center">
-                    <div class="text-white font-bold text-2xl font-serif">OORBDA EDMS</div>
-                    <div class="text-white font-semibold font-serif text-xs opacity-80">Electronic Document Management System</div>
+                    <div class="text-white font-bold text-2xl font-serif">OORBDA</div>
+                    <div class="text-white font-semibold font-serif text-sm opacity-80">Departmental Vote Expenditure Allocation Book (DVEAB) </div>
             </div>
             <!-- end of name //-->
         </a>
@@ -31,4 +31,5 @@
         
     </div>
     <!-- end of header bar //-->
+     
 </header>

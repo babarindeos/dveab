@@ -124,56 +124,32 @@
 
         <!-- Document Charts //-->
         <section class="flex flex-col w-full md:flex-row border-0 py-4">
-                <!-- Documents by Ministries //-->
+                <!-- Documents by Organs //-->
                 <div class="flex-1 border-0">
                         <div class="hidden">
-                            Documents By Ministries
+                            Documents By Organs
                         </div>
                         <div>
-                            <div id="ministry_document_piechart_3d" style="width: 650px; height: 400px;"></div>
+                            <div id="organ_document_piechart_3d" style="width: 650px; height: 400px;"></div>
                         </div>
                 </div>
-                <!-- end of Documents by Ministries //-->
+                <!-- end of Documents by Organs //-->
 
-                <!-- Documents by Departments //-->
+                <!-- Staff by Organs //-->
                 <div class="flex-1">
                         <div class="hidden">
-                            Departments Chart
+                            Staff by Organs
                         </div>
                         <div>
-                            <div id="department_document_piechart_3d" style="width:650px; height:400px"></div>
+                            <div id="organ_staff_piechart_3d" style="width:650px; height:400px"></div>
                         </div>
                 </div>
-                <!-- end of Documents by Departments //-->
+                <!-- end of Staff by Organs //-->
         </section>
         <!-- end of Document Charts //-->
         
         
-        <!-- Staff Charts //-->
-        <section class="flex flex-col w-full md:flex-row border-0 py-4">
-                <!-- Staff by Ministries //-->
-                <div class="flex-1 border-0">
-                        <div class="hidden">
-                            Staff By Ministries
-                        </div>
-                        <div>
-                            <div id="ministry_staff_piechart" style="width: 650px; height: 400px;"></div>
-                        </div>
-                </div>
-                <!-- end of Staff by Ministries //-->
-
-                <!-- Staff by Departments //-->
-                <div class="flex-1">
-                        <div class="hidden">
-                            Staff by Departments
-                        </div>
-                        <div>
-                            <div id="department_staff_dotnut" style="width:650px; height:400px"></div>
-                        </div>
-                </div>
-                <!-- end of Staff by Departments //-->
-        </section>
-        <!-- end of Staff Charts //-->
+        
 
 
 
@@ -183,20 +159,17 @@
 </x-admin-layout>
 
 
-{{-- 
+
 <script type="text/javascript">
+    
     // Convert PHP array to a JSON object for JavaScript
-    var ministriesDocumentsChartData = {!! json_encode($ministries_documents_chart_data) !!};
-    var departmentsDocumentsChartData = {!! json_encode($departments_documents_chart_data) !!}
-    var ministriesStaffChartData = {!! json_encode($ministries_staff_chart_data) !!}
-    var departmentsStaffChartData = {!! json_encode($departments_staff_chart_data) !!}
+    var segmentDocumentsChartData = {!! json_encode($segment_documents_chart_data) !!};
+    var segmentStaffChartData = {!! json_encode($segment_staff_chart_data) !!}
 
+ 
     // Output the array in the console
-    console.log(ministriesDocumentsChartData);
-    console.log(departmentsDocumentsChartData);
-    console.log(ministriesStaffChartData);
-    console.log(departmentsStaffChartData);
-
+    console.log(segmentDocumentsChartData);
+    console.log(segmentStaffChartData);
 
 </script> 
 <script type="text/javascript">
@@ -213,52 +186,32 @@
         console.log(dataArray);
         */
 
-        //--------   Ministries Documents Chart  //-----------------
-        var ministries_documents_data = google.visualization.arrayToDataTable(ministriesDocumentsChartData);
+        //--------   Segment Documents Chart  //-----------------
+        var segment_documents_data = google.visualization.arrayToDataTable(segmentDocumentsChartData);
 
-        var optionsMinistryDocument = {
-          title: 'Documents by Ministries',
+        var optionsOrganDocument = {
+          title: 'Documents by Organs',
           is3D: true,
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('ministry_document_piechart_3d'));
-        chart.draw(ministries_documents_data, optionsMinistryDocument);
+        var chart = new google.visualization.PieChart(document.getElementById('organ_document_piechart_3d'));
+        chart.draw(segment_documents_data, optionsOrganDocument);
 
 
-        //------------ Departments Documents Chart -------------------
-        var departments_documents_data = google.visualization.arrayToDataTable(departmentsDocumentsChartData);
+        //------------ Segment Staff Chart -------------------
+        var segment_staff_data = google.visualization.arrayToDataTable(segmentStaffChartData);
 
-        var optionsDepartmentDocument = {
-            title: 'Documents by Departments',
+        var optionsSegmentStaff = {
+            title: 'Staff by Organs',
             is3D: true,
         }
 
-        var chart = new google.visualization.PieChart(document.getElementById('department_document_piechart_3d'));
-        chart.draw(departments_documents_data, optionsDepartmentDocument);
+        var chart = new google.visualization.PieChart(document.getElementById('organ_staff_piechart_3d'));
+        chart.draw(segment_staff_data, optionsSegmentStaff);
 
 
-        //------------- Staff Ministries Chart -------------------------
-        var ministries_staff_data = google.visualization.arrayToDataTable(ministriesStaffChartData);
-
-        var optionsMinistryStaff = {
-            title: 'Staff by Ministries'
-        }
-
-        var chart = new google.visualization.PieChart(document.getElementById('ministry_staff_piechart'));
-        chart.draw(ministries_staff_data, optionsMinistryStaff);
-
-
-        //------------- Staff Departments Chart -------------------------
-        var departments_staff_data = google.visualization.arrayToDataTable(departmentsStaffChartData);
-
-        var optionsDepartmentStaff = {
-            title: 'Staff by Departments',
-            pieHole: 0.4,
-        }
-
-        var chart = new google.visualization.PieChart(document.getElementById('department_staff_dotnut'));
-        chart.draw(departments_staff_data, optionsDepartmentStaff);
+        
         
 
       }
-</script> --}}
+</script> 
