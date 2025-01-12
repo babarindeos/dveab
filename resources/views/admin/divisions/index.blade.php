@@ -53,15 +53,15 @@
                         
                         @foreach($divisions as $division)
                             <tr class="border border-b border-gray-200 ">
-                                <td class='text-center py-4'>{{ ++$counter }}.</td>
+                                <td class='text-center py-8'>{{ ++$counter }}.</td>
                                 <td>
-                                            {{ $division->department->name }}
+                                            {{ $division->name }}
                                             <div class="text-sm">
-                                                {{ $division->department->directorate->name }} ({{ $division->department->directorate->code }})
+                                                {{ $division->parent_organ->name }} ({{ $division->parent_organ->code }})
                                             </div>
                                 </td>
                                 <td>
-                                    <a class="hover:underline" href="{{ route('admin.divisions.show', ['division'=>$division->id]) }}" >
+                                    <a class="hover:underline" href="{{ route('admin.divisions.show', ['organ'=>$division->id]) }}" >
                                             {{ $division->name }}
                                     </a>
                                     <div class="flex text-sm">
@@ -74,11 +74,11 @@
                                 <td class="text-center">
                                     <span class="text-sm">
                                         <a class="hover:bg-blue-500 bg-blue-400 text-white rounded-md 
-                                                px-4 py-1 text-xs" href="{{ route('admin.divisions.edit', ['division'=>$division->id])}}">Edit</a>
+                                                px-4 py-1 text-xs" href="{{ route('admin.divisions.edit', ['organ'=>$division->id])}}">Edit</a>
                                     </span>
                                     <span> 
                                         <a class="hover:bg-red-500 bg-red-400 text-white rounded-md 
-                                                px-4 py-1 text-xs" href="{{ route('admin.divisions.confirm_delete', ['division'=>$division->id])}}"
+                                                px-4 py-1 text-xs" href="{{ route('admin.divisions.confirm_delete', ['organ'=>$division->id])}}"
                                         >Delete</a>
                                     </span>
                                 </td>

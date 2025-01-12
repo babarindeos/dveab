@@ -58,7 +58,7 @@
                                 <tr class="border border-b border-gray-200">
                                     <td class='text-center py-4'>{{ ++$counter }}.</td>
                                     <td>
-                                        {{ $department->directorate->name }} <small>({{$department->directorate->code}})</small>
+                                        {{ $department->parent_organ->name }}
                                         
                                     </td>
                                     <td>
@@ -72,11 +72,11 @@
                                     <td class="text-center">
                                         <span class="text-sm">
                                             <a class="hover:bg-blue-500 bg-blue-400 text-white rounded-md 
-                                                    px-4 py-1 text-xs" href="{{ route('admin.departments.edit', ['department'=>$department->id])}}">Edit</a>
+                                                    px-4 py-1 text-xs" href="{{ route('admin.departments.edit', ['organ'=>$department->id])}}">Edit</a>
                                         </span>
                                         <span> 
                                             <a class="hover:bg-red-500 bg-red-400 text-white rounded-md 
-                                                    px-4 py-1 text-xs" href="{{ route('admin.departments.confirm_delete', ['department'=>$department->id])}}"
+                                                    px-4 py-1 text-xs" href="{{ route('admin.departments.confirm_delete', ['organ'=>$department->id])}}"
                                             >Delete</a>
                                         </span>
                                     </td>

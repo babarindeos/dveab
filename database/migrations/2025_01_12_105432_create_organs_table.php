@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('directorates', function (Blueprint $table) {
+        Schema::create('organs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('segment_id');
+            $table->foreign('segment_id')->references('id')->on('segments')->onDelete('cascade');
+            $table->unsignedBigInteger('parent')->nullable();
+            $table->foreign('parent')->references('id')->on('organs')->onDelete('cascade');
             $table->string('name')->unique();
             $table->string('code')->unique();
             $table->timestamps();
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('directorates');
+        Schema::dropIfExists('organs');
     }
 };

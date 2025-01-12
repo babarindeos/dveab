@@ -59,7 +59,11 @@
                         @foreach($financial_years as $fyear)
                             <tr>
                                 <td class='text-center py-4 '>{{ ++$counter }}.</td>
-                                <td>{{ $fyear->name }}</td>
+                                <td>
+                                    <a class="hover:underline" href="{{ route('admin.financial_years.show',['financial_year'=>$fyear->id]) }}">
+                                        {{ $fyear->name }}
+                                    </a>
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($fyear->start_date)->format('jS F, Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($fyear->end_date)->format('jS F, Y') }}</td>
                                 <td class='text-center'>

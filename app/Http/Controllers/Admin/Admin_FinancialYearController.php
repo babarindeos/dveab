@@ -89,4 +89,9 @@ class Admin_FinancialYearController extends Controller
 
         }
     }
+
+    public function show(FinancialYear $financial_year)
+    {
+        return view('admin.financial_years.show', compact('financial_year'));
+    }
 }

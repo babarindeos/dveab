@@ -17,7 +17,7 @@
         <!-- new ministry form //-->
         <section>
                 <div>
-                    <form  action="{{ route('admin.divisions.confirm_delete', ['division' => $division->id]) }} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
+                    <form  action="{{ route('admin.divisions.confirm_delete', ['organ' => $division->id]) }} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
 
                         

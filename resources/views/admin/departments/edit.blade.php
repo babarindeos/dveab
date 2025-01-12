@@ -17,7 +17,7 @@
         <!-- new college form //-->
         <section class="mb-8">
                 <div>
-                    <form  action="{{ route('admin.departments.update', ['department' => $department->id])}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
+                    <form  action="{{ route('admin.departments.update', ['organ' => $department->id])}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
 
                         
@@ -48,7 +48,7 @@
                                                                      >
                                                                     <option value=''>-- Select Directorate --</option>
                                                                         @foreach($directorates as $directorate)
-                                                                            <option class='py-4' @if ($directorate->id == $department->directorate_id) selected @endif value="{{$directorate->id}}">{{$directorate->name}} ({{$directorate->code}})</option>
+                                                                            <option class='py-4' @if ($directorate->id == $department->parent) selected @endif value="{{$directorate->id}}">{{$directorate->name}} ({{$directorate->code}})</option>
                                                                         @endforeach                                                                    
                                                                     </select>
 

@@ -4,19 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Directorate;
 use App\Models\Department;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Models\Segment;
 use App\Models\SegmentOrgan;
+use App\Models\Organ;
+
 class Admin_DirectorateController extends Controller
 {
 
     //
     public function index()
     {
-        $directorates = Directorate::orderBy('name','asc')->orderBy('code','asc')->paginate(2);
+        $directorates = Organ::where('segment_id', 1)
+                              ->orderBy('name','asc')
+                              ->orderBy('code','asc')
+                              ->paginate(20);
         return view('admin.directorates.index', compact('directorates'));
     }
 
@@ -29,21 +33,26 @@ class Admin_DirectorateController extends Controller
     public function store(Request $request)
     {
         $formFields = $request->validate([
-            'name' => ['required', 'string'],
-            'code' => ['required', 'string']
+            'name' => ['required', 'string', 'unique:organs,name'],
+            'code' => ['required', 'string', 'unique:organs,code']
         ]);
 
-        $directorate_exist = Directorate::where('name', $request->input('name'))
+       /*  $directorate_exist = Directorate::where('name', $request->input('name'))
                                     ->Orwhere('code', $request->input('code'))
-                                    ->exists();
+                                    ->exists(); */
+
         
-        if ($directorate_exist == false)
-        {
+
             DB::beginTransaction();
 
             try
-            {
-                $create = Directorate::create($formFields);
+            {   
+
+                $current_segment = Segment::findOrFail(1);
+                
+                $formFields['segment_id'] = $current_segment->id;
+
+                $create = Organ::create($formFields);
 
                 if ($create)
                 {
@@ -53,7 +62,7 @@ class Admin_DirectorateController extends Controller
                         'message' => 'Directorate has been successfully created'
                     ];
 
-                    $current_segment = Segment::findOrFail(1);
+                    
 
                     $segment_organs_data = [
                         'segment_id' => $current_segment->id,
@@ -80,21 +89,12 @@ class Admin_DirectorateController extends Controller
                 $data = [
                     'error' => true,
                     'status' => 'fail',
-                    'message' => 'An error occurred creating the Directorate '.$e->getMessage()
+                    'message' => $e->getMessage()
                 ];
 
                 DB::rollBack();
-            }
-            
-        }
-        else
-        {
-            $data = [
-                'error' => true,
-                'status' => 'fail',
-                'message' => 'A Directorate with that name or code already exist'
-            ];
-        }
+            }   
+        
 
         return redirect()->back()->with($data);
     }
@@ -107,21 +107,23 @@ class Admin_DirectorateController extends Controller
     }
 
 
-    public function edit(Directorate $directorate)
+    public function edit(Organ $organ)
     {
+        $directorate = $organ;
         return view('admin.directorates.edit', compact('directorate'));
     }
 
-    public function update(Request $request, Directorate $directorate)
+    public function update(Request $request, Organ $organ)
     {
         $formFields = $request->validate([
             'name' => 'required | string',
             'code' => 'required | string'
         ]);
 
+
         try
         {
-            $update = $directorate->update($formFields);
+            $update = $organ->update($formFields);
 
             if ($update)
             {
@@ -145,7 +147,7 @@ class Admin_DirectorateController extends Controller
                 $data = [
                     'error' => true,
                     'status' => 'fail',
-                    'message' => 'An error occurred updating the record: '.$e->getMessage()
+                    'message' => $e->getMessage()
                 ];
         }
 
@@ -153,9 +155,10 @@ class Admin_DirectorateController extends Controller
         
     }
 
-    public function confirm_delete(Directorate $directorate)
+    public function confirm_delete(Organ $organ)
     {
-        return view('admin.directorates.confirm_delete', compact('directorate'));
+        
+        return view('admin.directorates.confirm_delete', compact('organ'));
 
     }
 

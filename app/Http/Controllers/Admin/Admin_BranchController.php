@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Division;
 use App\Models\Branch;
+use App\Models\Organ;
 use App\Models\Segment;
 use App\Models\SegmentOrgan;
 use Illuminate\Support\Facades\DB;
@@ -16,32 +17,47 @@ class Admin_BranchController extends Controller
     //
     public function index()
     {
-        $branches = Branch::orderBy('name', 'asc')->paginate();
+        $branch_segment = Segment::findOrFail(4);
+
+        $branches = Organ::where('segment_id', $branch_segment->id)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(20);
+        
+
+        
         return view('admin.branches.index')->with('branches', $branches);
     }
 
     public function create()
     {
-        $divisions = Division::orderBy('name', 'asc')->get();
+        $division_segment = Segment::findOrFail(3);
+        $divisions = Organ::where('segment_id', $division_segment->id)
+                          ->orderBy('created_at', 'asc')->get();
+
         return view('admin.branches.create', compact('divisions'));
     }
 
 
     public function store(Request $request)
     {
+
         $formFields = $request->validate([
             'division' => ['required', 'string'],
-            'name' => ['required', 'string', 'unique:branches,name'],
-            'code' => ['required', 'string', 'unique:branches,code']
+            'name' => ['required', 'string', 'unique:organs,name'],
+            'code' => ['required', 'string', 'unique:organs,code']
         ]);
 
-        $formFields['division_id'] = $formFields['division'];
+        $branch_segment = Segment::findOrFail(4);
+
+        $formFields['parent'] = $formFields['division'];
+        $formFields['segment_id'] = $branch_segment->id;
+
 
         DB::beginTransaction();
 
         try
         {
-            $create = Branch::create($formFields);
+            $create = Organ::create($formFields);
 
             if ($create)
             {
@@ -77,7 +93,7 @@ class Admin_BranchController extends Controller
         {
                 $data = [
                     'error' => true,
-                    'status' => 'success',
+                    'status' => 'fail',
                     'message' => 'An error occurred'.$e->getMessage()
                 ];
 

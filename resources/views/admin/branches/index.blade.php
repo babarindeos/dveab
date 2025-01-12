@@ -54,11 +54,11 @@
                         
                         @foreach($branches as $branch)
                             <tr class="border border-b border-gray-200 ">
-                                <td class='text-center py-4'>{{ ++$counter }}.</td>
+                                <td class='text-center py-8'>{{ ++$counter }}.</td>
                                 <td>
-                                            {{ $branch->division->name }}
+                                            {{ $branch->name }}
                                             <div class="text-sm">
-                                                {{ $branch->division->department->name }} ({{ $branch->division->department->code }})
+                                                {{ $branch->parent_organ->name }} ({{ $branch->parent_organ->code }})
                                             </div>
                                 </td>
                                 <td>

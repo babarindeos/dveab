@@ -17,7 +17,7 @@
         <!-- new division form //-->
         <section>
                 <div>
-                    <form  action="{{ route('admin.divisions.update', ['division' => $division->id])}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
+                    <form  action="{{ route('admin.divisions.update', ['organ' => $division->id])}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
 
                         
@@ -48,7 +48,7 @@
                                                                     <option value=''>-- Select Department --</option>
                                                                         @foreach($departments as $department)
                                                                             <option class='py-4' value="{{$department->id}}" 
-                                                                                @if ($department->id == $division->department->id) selected @endif>
+                                                                                @if ($department->id == $division->parent) selected @endif>
                                                                                     {{$department->name}} ({{$department->code}})
                                                                             </option>
                                                                         @endforeach                                                                    

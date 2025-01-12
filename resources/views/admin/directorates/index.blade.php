@@ -55,13 +55,13 @@
                             <tr class="border border-b border-gray-200 ">
                                 <td class='text-center py-4'>{{ ++$counter }}.</td>
                                 <td>
-                                    <a class="hover:underline" href="{{ route('admin.directorates.show', ['directorate'=>$directorate->id]) }}" >
+                                    <a class="hover:underline" href="{{ route('admin.directorates.show', ['organ'=>$directorate->id]) }}" >
                                             {{ $directorate->name }}
                                     </a>
                                     <div class="flex text-sm">
 
                                         
-                                            <div>Departments ({{ $directorate->department->count() }})</div>  
+                                            <div>Departments ()</div>  
                                                                         
                                         
                                     </div>
@@ -71,11 +71,11 @@
                                 <td class="text-center">
                                     <span class="text-sm">
                                         <a class="hover:bg-blue-500 bg-blue-400 text-white rounded-md 
-                                                px-4 py-1 text-xs" href="{{ route('admin.directorates.edit', ['directorate'=>$directorate->id])}}">Edit</a>
+                                                px-4 py-1 text-xs" href="{{ route('admin.directorates.edit', ['organ'=>$directorate->id])}}">Edit</a>
                                     </span>
                                     <span> 
                                         <a class="hover:bg-red-500 bg-red-400 text-white rounded-md 
-                                                px-4 py-1 text-xs" href="{{ route('admin.directorates.confirm_delete', ['directorate'=>$directorate->id])}}"
+                                                px-4 py-1 text-xs" href="{{ route('admin.directorates.confirm_delete', ['organ'=>$directorate->id])}}"
                                         >Delete</a>
                                     </span>
                                 </td>

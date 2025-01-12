@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Division;
 use App\Models\Department;
 use App\Models\Segment;
+use App\Models\Organ;
 use App\Models\SegmentOrgan;
 use Illuminate\Support\Facades\DB;
 
@@ -15,31 +16,42 @@ class Admin_DivisionController extends Controller
     //
     public function index()
     {
-        $divisions = Division::orderBy('id', 'desc')->paginate(5);
+        $segment = Segment::findOrFail(3);
+
+        $divisions = Organ::where('segment_id', $segment->id)
+                          ->orderBy('created_at', 'desc')->paginate(20);
+
         return view('admin.divisions.index', compact('divisions'));
     }
 
     public function create()
     {
-        $departments = Department::orderBy('name', 'desc')->get();
+        $segment = Segment::findOrFail(2);
+
+        $departments = Organ::where('segment_id', $segment->id)
+                             ->orderBy('name', 'desc')->get();
+
         return view('admin.divisions.create')->with('departments', $departments);
     }
 
     public function store(Request $request)
     {
+        $segment = Segment::findOrFail(3);
+
         $formFields = $request->validate([
             'department' => ['required', 'string'],
             'name' => ['required', 'string', 'unique:divisions,name'],
             'code' => ['required', 'string', 'unique:divisions,code']
         ]);
 
-        $formFields['department_id'] = $formFields['department'];
-
+        $formFields['segment_id'] = $segment->id;
+        $formFields['parent'] =  $formFields['department'];
+        
         DB::beginTransaction();
 
         try
         {
-            $create = Division::create($formFields);
+            $create = Organ::create($formFields);
 
             if ($create)
             {
@@ -86,14 +98,19 @@ class Admin_DivisionController extends Controller
         return redirect()->back()->with($data);
     }
 
-    public function edit(Division $division)
+    public function edit(Organ $organ)
     {
-        $departments = Department::orderBy('name', 'asc')->get();
+        $segment = Segment::findOrFail(2);
+
+        $departments = Organ::where('segment_id', $segment->id)
+                                ->orderBy('name', 'asc')->get();
+
+        $division = $organ;
 
         return view('admin.divisions.edit', ['departments' => $departments, 'division' => $division]);
     }
 
-    public function update(Request $request, Division $division)
+    public function update(Request $request, Organ $organ)
     {
         $formFields = $request->validate([
             'department' => ['required', 'string'],
@@ -101,11 +118,15 @@ class Admin_DivisionController extends Controller
             'code' => ['required', 'string'],
         ]);
 
-        $formFields['department_id'] = $formFields['department'];
+        $segment = Segment::findOrFail(3);
+        $formFields['segment_id'] = $segment->id; 
+        $formFields['parent'] = $formFields['department'];
+
+        
 
         try
         {
-            $update = $division->update($formFields);
+            $update = $organ->update($formFields);
 
             if ($update)
             {
@@ -137,13 +158,15 @@ class Admin_DivisionController extends Controller
 
     }
 
-    public function confirm_delete(Division $division)
+    public function confirm_delete(Organ $organ)
     {
-        if ($division == null)
+        if ($organ == null)
         {
             return redirect()->back();
         }
 
+        $division = $organ;
+        
         return view('admin.divisions.confirm_delete', compact('division'));
     }
 

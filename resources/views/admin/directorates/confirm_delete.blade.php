@@ -17,7 +17,7 @@
         <!-- new ministry form //-->
         <section>
                 <div>
-                    <form  action="{{ route('admin.directorates.confirm_delete', ['directorate' => $directorate->id]) }} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
+                    <form  action="{{ route('admin.directorates.confirm_delete', ['organ' => $organ->id]) }} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
 
                         
@@ -26,7 +26,7 @@
                             <h2 class="font-semibold text-xl py-1" ></h2>
                             Do you really wish to delete this Directorate?
                             <div class="py-2 text-lg font-semibold">
-                                    {{ $directorate->name }}
+                                    {{ $organ->name }}
                             </div>
                         </div>
 

@@ -10,6 +10,7 @@ use App\Models\Department;
 use App\Models\Ministry;
 use App\Models\Directorate;
 use App\Models\Segment;
+use App\Models\Organ;
 use App\Models\SegmentOrgan;
 use Illuminate\Support\Facades\DB;
 
@@ -17,32 +18,42 @@ class Admin_DepartmentController extends Controller
 {
     //
     public function index(){
-        $departments = Department::orderBy('name', 'asc')->paginate(2);
+        $segment = Segment::findOrFail(2);
+
+        $departments = Organ::where('segment_id', $segment->id)
+                            ->orderBy('name', 'asc')
+                            ->paginate(20);
+        
         return view('admin.departments.index', compact('departments'));
     }
 
     public function create(){
-        
-        $directorates = Directorate::orderBy('name', 'asc')->get();
+        $segment = Segment::findOrFail(1);
+
+        $directorates = Organ::where('segment_id', $segment->id)
+                              ->orderBy('name', 'asc')
+                              ->get();
         return view('admin.departments.create', compact('directorates'));
     }
 
     public function store(Request $request){
         
-        
         $formFields = $request->validate([
             'directorate' => 'required',
-            'name' => 'required|string|unique:departments,name',
-            'code' => ['required', 'string', 'unique:departments,code']
+            'name' => 'required|string|unique:organs,name',
+            'code' => ['required', 'string', 'unique:organs,code']
         ]);
 
-        $formFields['directorate_id'] = $formFields['directorate'];        
+        $segment = Segment::findOrFail(2);
+
+        $formFields['segment_id'] = $segment->id;
+        $formFields['parent'] = $formFields['directorate'];       
 
         DB::beginTransaction();
 
         try{
 
-            $create = Department::create($formFields);
+            $create = Organ::create($formFields);
 
             if ($create){
                 $data = [
@@ -78,7 +89,7 @@ class Admin_DepartmentController extends Controller
             $data = [
                     'error' => true,
                     'status' => 'fail',
-                    'message' => 'An error occurred creating the Department'.$e->getMessage()
+                    'message' => $e->getMessage()
             ];
 
             DB::rollBack();
@@ -89,25 +100,32 @@ class Admin_DepartmentController extends Controller
     }
 
 
-    public function edit(Department $department){
-        //$colleges = College::orderBy('college_name', 'asc')->get();
-        $directorates = Directorate::orderBy('name', 'asc')->get();
+    public function edit(Organ $organ){
+
         
+        $segment = Segment::findOrFail(1);
+
+        $directorates = Organ::where('segment_id', $segment->id)
+                              ->orderBy('name', 'asc')->get();
+        
+        $department = $organ;
 
         return view('admin.departments.edit', compact('directorates', 'department'));
     }
 
-    public function update(Request $request, Department $department){
+    public function update(Request $request, Organ $organ){
         $formFields = $request->validate([
             'directorate' => 'required',
             'name' => ['required', 'string'],
             'code' => 'required | string'
         ]);
 
-        $formFields['directorate_id'] = $formFields['directorate'];
+        
+
+        $formFields['parent'] = $formFields['directorate'];
 
         try{
-            $update = $department->update($formFields);
+            $update = $organ->update($formFields);
 
             if ($update){
                 $data = [
@@ -135,8 +153,10 @@ class Admin_DepartmentController extends Controller
     }
 
 
-    public function confirm_delete(Department $department)
+    public function confirm_delete(Organ $organ)
     {
+
+        $department = $organ;
         
         return view('admin.departments.confirm_delete', compact('department'));
 

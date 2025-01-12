@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\Admin_SectionController;
 use App\Http\Controllers\Admin\Admin_UnitController;
 
 use App\Http\Controllers\Admin\Admin_FinancialYearController;
+use App\Http\Controllers\Admin\Admin_VaultController;
 
 use App\Http\Controllers\Staff\Staff_AuthController;
 use App\Http\Controllers\Staff\Staff_DashboardController;
@@ -161,12 +162,12 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('/directorates/create', [Admin_DirectorateController::class, 'create'])->name('admin.directorates.create');
     Route::post('/directorates/store', [Admin_DirectorateController::class, 'store'])->name('admin.directorates.store');
     
-    Route::get('/directorates/{directorate}/show', [Admin_DirectorateController::class, 'show'])->name('admin.directorates.show');
-    Route::get('/directorates/{directorate}/edit', [Admin_DirectorateController::class, 'edit'])->name('admin.directorates.edit');
-    Route::post('/directorates/{directorate}/update', [Admin_DirectorateController::class, 'update'])->name('admin.directorates.update');
+    Route::get('/directorates/{organ}/show', [Admin_DirectorateController::class, 'show'])->name('admin.directorates.show');
+    Route::get('/directorates/{organ}/edit', [Admin_DirectorateController::class, 'edit'])->name('admin.directorates.edit');
+    Route::post('/directorates/{organ}/update', [Admin_DirectorateController::class, 'update'])->name('admin.directorates.update');
 
-    Route::get('/directorates/{directorate}/confirm_delete', [Admin_DirectorateController::class, 'confirm_delete'])->name('admin.directorates.confirm_delete');
-    Route::post('/directorates/{directorate}/destroy', [Admin_DirectorateController::class, 'destroy'])->name('admin.directorates.destroy');
+    Route::get('/directorates/{organ}/confirm_delete', [Admin_DirectorateController::class, 'confirm_delete'])->name('admin.directorates.confirm_delete');
+    Route::post('/directorates/{organ}/destroy', [Admin_DirectorateController::class, 'destroy'])->name('admin.directorates.destroy');
 
     
     // ministry
@@ -188,11 +189,11 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('departments/create', [Admin_DepartmentController::class, 'create'])->name('admin.departments.create');
     Route::post('departments/store', [Admin_DepartmentController::class, 'store'])->name('admin.departments.store');
     
-    Route::get('departments/{department}/edit', [Admin_DepartmentController::class, 'edit'])->name('admin.departments.edit');
-    Route::post('departments/{department}/update', [Admin_DepartmentController::class, 'update'])->name('admin.departments.update');
+    Route::get('departments/{organ}/edit', [Admin_DepartmentController::class, 'edit'])->name('admin.departments.edit');
+    Route::post('departments/{organ}/update', [Admin_DepartmentController::class, 'update'])->name('admin.departments.update');
 
-    Route::get('departments/{department}/confirm_delete', [Admin_DepartmentController::class, 'confirm_delete'])->name('admin.departments.confirm_delete');
-    Route::post('/departments/{department}/destroy', [Admin_DepartmentController::class, 'destroy'])->name('admin.departments.destroy');
+    Route::get('departments/{organ}/confirm_delete', [Admin_DepartmentController::class, 'confirm_delete'])->name('admin.departments.confirm_delete');
+    Route::post('/departments/{organ}/destroy', [Admin_DepartmentController::class, 'destroy'])->name('admin.departments.destroy');
 
 
     // Division
@@ -200,12 +201,12 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('divisions/create', [Admin_DivisionController::class, 'create'])->name('admin.divisions.create');
     Route::post('divisions/store', [Admin_DivisionController::class, 'store'])->name('admin.divisions.store');
     
-    Route::get('divisions/{division}/show', [Admin_DivisionController::class, 'show'])->name('admin.divisions.show');
-    Route::get('divisions/{division}/edit', [Admin_DivisionController::class, 'edit'])->name('admin.divisions.edit');
-    Route::post('divisions/{division}/update', [Admin_DivisionController::class, 'update'])->name('admin.divisions.update');
+    Route::get('divisions/{organ}/show', [Admin_DivisionController::class, 'show'])->name('admin.divisions.show');
+    Route::get('divisions/{organ}/edit', [Admin_DivisionController::class, 'edit'])->name('admin.divisions.edit');
+    Route::post('divisions/{organ}/update', [Admin_DivisionController::class, 'update'])->name('admin.divisions.update');
 
-    Route::get('divisions/{division}/confirm_delete', [Admin_DivisionController::class, 'confirm_delete'])->name('admin.divisions.confirm_delete');
-    Route::post('/divisions/{division}/destroy', [Admin_DivisionController::class, 'destroy'])->name('admin.divisions.destroy');
+    Route::get('divisions/{organ}/confirm_delete', [Admin_DivisionController::class, 'confirm_delete'])->name('admin.divisions.confirm_delete');
+    Route::post('/divisions/{organ}/destroy', [Admin_DivisionController::class, 'destroy'])->name('admin.divisions.destroy');
 
     
     // Branch
@@ -308,12 +309,14 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('financial_years/create', [Admin_FinancialYearController::class, 'create'])->name('admin.financial_years.create');
     Route::post('financial_years/store', [Admin_FinancialYearController::class, 'store'])->name('admin.financial_years.store');
 
+    Route::get('financial_years/{financial_year}/show', [Admin_FinancialYearController::class, 'show'])->name('admin.financial_years.show');
     Route::get('financial_years/{financial_year}/edit', [Admin_FinancialYearController::class, 'edit'])->name('admin.financial_years.edit');
     Route::post('financial_years/{financial_year}/update', [Admin_FinancialYearController::class, 'update'])->name('admin.financial_years.update');
 
     Route::get('financial_years/{financial_year}/confirm_delete', [Admin_FinancialYearController::class, 'confirm_delete'])->name('admin.financial_years.confirm_delete');
     Route::delete('financial_years/{financial_year}/delete', [Admin_FinancialYearController::class, 'destroy'])->name('admin.financial_years.delete');
 
+    Route::get('financial_years/{financial_year}/vaults/create', [Admin_VaultController::class, 'create'])->name('admin.financial_years.vaults.create');
     
 });
 

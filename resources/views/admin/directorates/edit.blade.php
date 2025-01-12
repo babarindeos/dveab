@@ -17,7 +17,7 @@
         <!-- new Directorate form //-->
         <section>
                 <div>
-                    <form  action="{{ route('admin.directorates.update', ['directorate' => $directorate->id])}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
+                    <form  action="{{ route('admin.directorates.update', ['organ' => $directorate->id]) }} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
 
                         
