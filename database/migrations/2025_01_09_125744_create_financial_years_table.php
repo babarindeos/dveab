@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('financial_years', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('start');
-            $table->date('end');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

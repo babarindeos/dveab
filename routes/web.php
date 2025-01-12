@@ -307,6 +307,13 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('financial_years', [Admin_FinancialYearController::class, 'index'])->name('admin.financial_years.index');
     Route::get('financial_years/create', [Admin_FinancialYearController::class, 'create'])->name('admin.financial_years.create');
     Route::post('financial_years/store', [Admin_FinancialYearController::class, 'store'])->name('admin.financial_years.store');
+
+    Route::get('financial_years/{financial_year}/edit', [Admin_FinancialYearController::class, 'edit'])->name('admin.financial_years.edit');
+    Route::post('financial_years/{financial_year}/update', [Admin_FinancialYearController::class, 'update'])->name('admin.financial_years.update');
+
+    Route::get('financial_years/{financial_year}/confirm_delete', [Admin_FinancialYearController::class, 'confirm_delete'])->name('admin.financial_years.confirm_delete');
+    Route::delete('financial_years/{financial_year}/delete', [Admin_FinancialYearController::class, 'destroy'])->name('admin.financial_years.delete');
+
     
 });
 
